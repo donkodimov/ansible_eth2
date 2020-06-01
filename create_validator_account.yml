@@ -2,7 +2,7 @@
 - hosts: stake
   vars_prompt:
   - name: password
-    prompt: "Enter validator password:"
+    prompt: "Enter validator password"
 
   tasks:
   - name: Install pip module pexpect
