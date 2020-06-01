@@ -1,5 +1,9 @@
 ---
 - hosts: stake
+  vars_prompt:
+  - name: password
+    prompt: "Enter validator password:"
+
   tasks:
   - name: Install pip module pexpect
     become: yes
@@ -11,8 +15,8 @@
       command: /home/toni/prysm/prysm.sh validator accounts create
       responses:
         'Please specify the keystore path for your private keys \(default: \"/home/toni/\.eth2validators\"\):': "\n"
-        'Enter a password': "pass1234"
-        'Please re-enter your password': "pass1234"
+        'Enter a password': "{{ password }}"
+        'Please re-enter your password': "{{ password }}"
       timeout: 180
     register: validator_output
 

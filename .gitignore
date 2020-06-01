@@ -1,0 +1,10 @@
+.vagrant/machines/poseth2/virtualbox/action_provision
+.vagrant/machines/poseth2/virtualbox/action_set_name
+.vagrant/machines/poseth2/virtualbox/box_meta
+.vagrant/machines/poseth2/virtualbox/creator_uid
+.vagrant/machines/poseth2/virtualbox/id
+.vagrant/machines/poseth2/virtualbox/index_uuid
+.vagrant/machines/poseth2/virtualbox/synced_folders
+.vagrant/machines/poseth2/virtualbox/vagrant_cwd
+.vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory
+.vagrant/rgloader/loader.rb
