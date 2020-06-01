@@ -1,0 +1,35 @@
+- name: Upgrading all packages (Ubuntu/Debian)
+  apt:
+    upgrade: dist
+  when: ansible_os_family == "Debian" or ansible_os_family == "Ubuntu"
+
+- name: Add repository epel (CentOS)
+  yum:
+    name: epel-release
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Upgrading all packages (CentOS)
+  yum:
+    name: '*'
+    state: latest
+  when: ansible_os_family == "RedHat"
+
+- name: Install a few more packages
+  package:
+    name: "{{item}}"
+    state: installed
+  with_items:
+   - vim
+   - chrony
+   - curl
+   - git
+   # - docker
+   - tmux
+   - perl-Digest-SHA
+   - '@Development tools'
+   - libstdc++
+   - bash-completion
+   - python3-pip
+   - fail2ban
+   - iptables-services

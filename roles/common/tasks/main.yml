@@ -1,0 +1,68 @@
+---
+- name: Replace $releacever with 8 in centos repos.
+  replace:
+    path: /etc/yum.repos.d/CentOS-Base.repo
+    regexp: '\$releasever'
+    replace: '8'
+
+- name: Replace $releacever with 8 in centos repos.
+  replace:
+    path: /etc/yum.repos.d/CentOS-AppStream.repo
+    regexp: '\$releasever'
+    replace: '8'
+
+- name: Replace $releacever with 8 in centos repos.
+  replace:
+    path: /etc/yum.repos.d/CentOS-Extras.repo
+    regexp: '\$releasever'
+    replace: '8'
+
+- name: Set TZ to Europe/Berlin
+  timezone:
+    name: Europe/Berlin
+
+- name: Ensure NTP is running.
+  service:
+    name: chronyd
+    state: started
+    enabled: yes
+
+- name: Create toni group
+  group:
+    name: toni
+    state: present
+
+- name: Create non-root user in the wheel group
+  user:
+    name: "{{ username }}"
+    password: "{{ password }}"
+    group: wheel
+    createhome: yes
+
+- name: Ensure wheel group has sudo privileges
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^%wheel"
+    line: "%wheel ALL=(ALL:ALL) ALL"
+    validate: "/usr/sbin/visudo -cf %s"
+
+- name: Install the `sudo` package
+  package:
+    name: sudo
+    state: latest
+
+- name: Create prysm directory.
+  file:
+    dest: "/home/toni/prysm"
+    mode: "744"
+    owner: toni
+    group: toni
+    state: directory
+
+- name: Download prysm.sh script.
+  get_url:
+    url: https://raw.githubusercontent.com/prysmaticlabs/prysm/master/prysm.sh
+    dest: /home/toni/prysm/prysm.sh
+    owner: toni
+    mode: '0744'

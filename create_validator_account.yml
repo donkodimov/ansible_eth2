@@ -1,0 +1,21 @@
+---
+- hosts: stake
+  tasks:
+  - name: Install pip module pexpect
+    become: yes
+    pip:
+      name: pexpect
+      
+  - name: Create validator account
+    expect:
+      command: /home/toni/prysm/prysm.sh validator accounts create
+      responses:
+        'Please specify the keystore path for your private keys \(default: \"/home/toni/\.eth2validators\"\):': "\n"
+        'Enter a password': "pass1234"
+        'Please re-enter your password': "pass1234"
+      timeout: 180
+    register: validator_output
+
+  - name: Validator status output
+    debug:
+      var: validator_output

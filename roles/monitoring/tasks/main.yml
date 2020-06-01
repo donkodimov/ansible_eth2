@@ -1,0 +1,40 @@
+---
+- name: Create prometheus group
+  group:
+    name: prometheus
+    state: present
+    
+- name: Create user prometheus
+  user:
+    name: prometheus
+    createhome: no
+    group: prometheus
+    shell: /bin/false
+
+- name: Create user node_exporter
+  user:
+    name: node_exporter
+    createhome: no
+    shell: /bin/false
+
+- name: Create prometheus directory.
+  file:
+    dest: /etc/prometheus
+    mode: "766"
+    owner: prometheus
+    state: directory
+
+- name: Create prometheus data directory.
+  file:
+    dest: /var/lib/prometheus
+    mode: "766"
+    owner: prometheus
+    state: directory
+
+- name: Download Prometheus software.
+  unarchive:
+    src: http://github.com/prometheus/prometheus/releases/download/v2.18.1/prometheus-2.18.1.linux-amd64.tar.gz
+    remote_src: yes
+    dest: /home/toni
+    owner: toni
+    mode: '0744'
