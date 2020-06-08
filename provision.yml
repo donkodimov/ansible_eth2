@@ -23,9 +23,9 @@
     public_key: ~/.ssh/id_rsa.pub
 
   roles:
-    - common
-    - packages
-    - ssh
-    - iptables
-    - fail2ban
+    #- common
+    #- packages
+    #- ssh
+    #- iptables
+    #- fail2ban
     - monitoring  

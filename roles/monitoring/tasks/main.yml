@@ -38,3 +38,102 @@
     dest: "/home/{{ username }}"
     owner: "{{ username }}"
     mode: '0744'
+
+- name: Copy binaries
+  copy:
+    src: "/home/{{ username }}/prometheus-2.18.1.linux-amd64/prometheus"
+    dest: /usr/local/bin
+    remote_src: yes
+    owner: prometheus
+    group: prometheus
+    mode: preserve
+
+- name: Copy binaries
+  copy:
+    src: "/home/{{ username }}/prometheus-2.18.1.linux-amd64/promtool"
+    dest: /usr/local/bin
+    remote_src: yes
+    owner: prometheus
+    group: prometheus
+    mode: preserve
+
+- name: Copy content files
+  copy:
+    src: "/home/{{ username }}/prometheus-2.18.1.linux-amd64/consoles"
+    dest: /etc/prometheus/
+    remote_src: yes
+    owner: prometheus
+    group: prometheus
+    mode: preserve
+    
+- name: Copy content files
+  copy:
+    src: "/home/{{ username }}/prometheus-2.18.1.linux-amd64/console_libraries"
+    dest: /etc/prometheus/
+    remote_src: yes
+    owner: prometheus
+    group: prometheus
+    mode: preserve
+
+- name: Remove archive
+  file:
+    state: absent
+    path: "/home/{{ username }}/prometheus-2.18.1.linux-amd64/"
+
+- name: Copy prometheus config file
+  copy:
+    src: ../templates/prometheus.yml
+    dest: /etc/prometheus/
+    owner: prometheus
+    group: prometheus
+    mode: u=rwx,g=r,o=r
+
+- name: Prometheus service | Create unit file
+  template:
+    src: ../templates/prometheus.service
+    dest: /etc/systemd/system/
+    mode: 644
+
+- name: Download node exporter software.
+  unarchive:
+    src: https://github.com/prometheus/node_exporter/releases/download/v1.0.0-rc.1/node_exporter-1.0.0-rc.1.linux-amd64.tar.gz
+    remote_src: yes
+    dest: "/home/{{ username }}"
+    owner: "{{ username }}"
+    mode: '0744'
+
+- name: Copy binaries node exporter
+  copy:
+    src: "/home/{{ username }}/node_exporter-1.0.0-rc.1.linux-amd64/node_exporter"
+    dest: /usr/local/bin
+    remote_src: yes
+    owner: node_exporter
+    group: node_exporter
+    mode: preserve
+
+- name: Remove archive                                                      
+  file:
+    state: absent
+    path: "/home/{{ username }}/node_exporter-1.0.0-rc.1.linux-amd64/"
+
+- name: Node exporter service | Create unit file
+  template:
+     src: ../templates/node_exporter.service
+     dest: /etc/systemd/system/
+     mode: 644
+  notify:
+    -  reload systemctl
+
+- name: start prometheus
+  service:
+    name: prometheus.service
+    state: started
+    enabled: yes
+
+- name: start node_exporter
+  service:
+    name: node_exporter.service
+    state: started
+    enabled: yes
+
+
