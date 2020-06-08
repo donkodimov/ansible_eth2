@@ -33,6 +33,14 @@
     protocol: tcp
     destination_port: "22"
     jump: ACCEPT
+    
+- name: Firewall rule - allow port 22/SSH traffic from 10.0.0.0/16
+  iptables:
+    chain: INPUT
+    source: 10.0.0.0/16
+    protocol: tcp
+    destination_port: "22"
+    jump: ACCEPT 
 
 - name: Firewall rule - allow port 12000  traffic
   iptables:
