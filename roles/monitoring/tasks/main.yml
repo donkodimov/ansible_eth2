@@ -35,6 +35,6 @@
   unarchive:
     src: http://github.com/prometheus/prometheus/releases/download/v2.18.1/prometheus-2.18.1.linux-amd64.tar.gz
     remote_src: yes
-    dest: /home/toni
-    owner: toni
+    dest: "/home/{{ username }}"
+    owner: "{{ username }}"
     mode: '0744'

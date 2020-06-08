@@ -27,9 +27,9 @@
     state: started
     enabled: yes
 
-- name: Create toni group
+- name: Create username group
   group:
-    name: toni
+    name: "{{ username }}"
     state: present
 
 - name: Create non-root user in the wheel group
@@ -54,15 +54,15 @@
 
 - name: Create prysm directory.
   file:
-    dest: "/home/toni/prysm"
+    dest: "/home/{{ username }}/prysm"
     mode: "744"
-    owner: toni
-    group: toni
+    owner: "{{ username }}"
+    group: "{{ username }}"
     state: directory
 
 - name: Download prysm.sh script.
   get_url:
     url: https://raw.githubusercontent.com/prysmaticlabs/prysm/master/prysm.sh
-    dest: /home/toni/prysm/prysm.sh
-    owner: toni
+    dest: "/home/{{ username }}/prysm/prysm.sh"
+    owner: "{{ username }}"
     mode: '0744'

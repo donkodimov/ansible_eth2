@@ -9,15 +9,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.insert_key = false
   config.vm.synced_folder ".", "/vagrant", disabled: "true"
   config.vm.provider :virtualbox do |v|
-    v.memory = 1024
+    v.memory = 2048
     v.linked_clone = true
     v.cpus = 2
   end
 
   # Staking node.
-  config.vm.define "poseth2" do |app|
-    app.vm.hostname = "poseth2.test"
-    app.vm.network :private_network, ip: "192.168.60.4"
+  config.vm.define "test" do |app|
+    app.vm.hostname = "test.test"
+    app.vm.network :private_network, ip: "192.168.60.5"
   end
   
   # Provisioning configuration for Ansible.
