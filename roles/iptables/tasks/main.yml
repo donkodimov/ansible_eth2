@@ -29,9 +29,10 @@
 - name: Firewall rule - allow port 22/SSH traffic
   iptables:
     chain: INPUT
+    source: 192.168.0.0/16
+    protocol: tcp
     destination_port: "22"
     jump: ACCEPT
-    protocol: tcp
 
 - name: Firewall rule - allow port 12000  traffic
   iptables:
@@ -50,6 +51,7 @@
 - name: Allow new incoming SYN packets on TCP port 3000 (Grafana).
   iptables:
     chain: INPUT
+    source: 192.168.0.0/16
     protocol: tcp
     destination_port: "3000"
     jump: ACCEPT
