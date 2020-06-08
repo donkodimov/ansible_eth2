@@ -8,4 +8,4 @@
 .vagrant/machines/poseth2/virtualbox/vagrant_cwd
 .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory
 .vagrant/rgloader/loader.rb
-.vagrant
+.vagrant/
