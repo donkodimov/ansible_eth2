@@ -12,9 +12,9 @@
       
   - name: Create validator account
     expect:
-      command: /home/toni/prysm/prysm.sh validator accounts create
+      command: "/home/{{ username }}/prysm/prysm.sh validator accounts create"
       responses:
-        'Please specify the keystore path for your private keys \(default: \"/home/toni/\.eth2validators\"\):': "\n"
+        'Please specify the keystore path for your private keys \(default: \"/home/{{ username }}/\.eth2validators\"\):': "\n"
         'Enter a password': "{{ password }}"
         'Please re-enter your password': "{{ password }}"
       timeout: 180
