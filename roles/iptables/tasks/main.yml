@@ -2,12 +2,14 @@
   package:
     name: iptables
     state: latest
+  when: ansible_os_family == "RedHat"
 
 - name: Start and enable the `iptables-services`
   service:
     name: iptables
     state: started
     enabled: yes
+  when: ansible_os_family == "RedHat"
 
 - name: Flush existing firewall rules
   iptables:
@@ -41,7 +43,7 @@
     protocol: tcp
     destination_port: "22"
     jump: ACCEPT 
-
+  
 - name: Firewall rule - allow port 12000  traffic
   iptables:
     chain: INPUT
@@ -81,3 +83,10 @@
 - name: Save iptables rules
   shell:
     iptables-save > /etc/sysconfig/iptables
+  when: ansible_os_family == "RedHat"
+
+- name: Install the `iptables-persistent` package on Debian/Ubuntu
+  package:
+    name: iptables-persistent
+    state: latest
+  when: ansible_os_family == "Debian" or ansible_os_family == "Ubuntu"
